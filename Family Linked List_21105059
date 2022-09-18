@@ -1,0 +1,128 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+// Doubly Linked List object
+class Node{
+    public:
+    string name;
+    int age;
+    Node* next;
+    Node* previous;
+
+    Node(){
+        next = NULL; previous = NULL;
+    }
+
+    Node(string name, int age){
+        this->name = name; this->age = age;
+        next = NULL; previous = NULL;
+    }
+
+};
+
+// function to insert new node into the list
+void insert(Node* head, Node *data){
+    Node* temp = head;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    temp->next = data;
+    data->next = NULL; data->previous = temp;
+}
+void insert(Node* head, string name, int age){
+    Node* NewNode = new Node(name,age);
+    insert(head, NewNode);
+}
+
+// function to remove a node from the list
+void remove(Node* head, string name){
+    Node* temp = head;
+    while(temp != NULL){
+        if(temp->name == name){ break; }
+        temp = temp->next;
+    }
+    if(temp == NULL){ cout<< "no such member exists" << endl; return; }
+
+    if(temp->previous == NULL){
+        head = temp->next; head->previous = NULL;
+        delete temp;
+        return;
+    }
+    if(temp->next == NULL){
+        temp->previous->next = NULL;
+        delete temp;
+        return;
+    }
+
+    temp->previous->next = temp->next;
+    temp->next->previous = temp->previous;
+    temp->next = NULL; temp->previous = NULL;
+    delete temp;
+}
+
+// function to search if a node exists in the list
+bool search(Node* head, string name){
+    Node* temp = head;
+    while(temp != NULL){
+        if(temp->name == name){ return true; }
+        temp = temp->next;
+    }
+    return false;
+}
+
+// function to display the whole list
+void display(Node* head){
+    Node* temp = head;
+    while(temp != NULL){
+        cout<< temp->name <<' '<< temp->age << endl;
+        temp = temp->next;
+    }
+}
+
+// function to count the number of nodes present in the list
+int get_count(Node* head){
+    int count = 0;
+    Node* temp = head;
+    while(temp != NULL){
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+int main(){
+    string name,relation;
+    int age;
+
+    Node* head = new Node("Father",47);
+
+    insert(head,"Mother",45);
+    insert(head,"Me",18);
+    insert(head,"Sister",22);
+    insert(head,"Uncle",44);
+    insert(head,"Aunt",43);
+
+    Node bro("cousin brother",15);
+    insert(head,&bro);
+
+    display(head);
+    cout<< "Number of family members = " << get_count(head) <<endl;
+    cout<<endl;
+
+    remove(head,"Uncle");
+    remove(head,"Aunt");
+    display(head);
+    cout<< "Number of family members = " << get_count(head) <<endl;
+    cout<<endl;
+
+    bool b = search(head,"Sister");
+    if(b){ cout<< "Found" << endl; }
+    else{ cout<< "Member not found" << endl; }
+
+    b = search(head,"Uncle");
+    if(b){ cout<< "Found" << endl; }
+    else{ cout<< "Member not found" << endl; }
+
+    return 0;
+}
