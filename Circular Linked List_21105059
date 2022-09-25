@@ -1,0 +1,44 @@
+/* QUESTION 1) While traversing a single-circular linked list, which condition establishes that the traversing element/variable has reached the first element? */
+
+/* Answer 1)
+While traversing any type of linked list, we create a temporary pointer that traverses the list starting from it's head node.
+In a circular linked list, the last element is connected back to the head of the list, so the temporary pointer points back to the head node after traversing the last node.
+So, if we place a check in our traversal loop that says temporary pointer should not be equal to head again, then we can exit the loop once all the elements of the list are traversed.
+The following search function shows how it can be implemented in code.
+*/
+
+class Node{
+    public:
+    int data;
+    Node* next;
+
+    Node(int data){
+        this->data = data;
+        next = NULL;
+    }
+};
+
+bool search(Node* head, int d){
+    if(head == NULL){ return false; }
+    if(head->data == d){ return true; }
+
+    Node* temp = head->next;
+    while(temp != head){
+        if(temp->data == d){ return true; }
+        temp = temp->next;
+    }
+    return false;
+}
+
+
+/*  QUESTION 2)  What are the practical applications of a circular linked list? (Try to find applications in your respective fields).
+
+ANSWER 2)
+Practical applications of circular linked list are :
+1)Multiplayer Games: All the Players are kept in a Circular Linked List and the pointer keeps on moving forward as a player's chance ends.
+2)Computing Resources: Circular Linked Lists is used to manage the computing resources of the computer.
+3)Fibonacci Heap: Circular Linked List is also used in the implementation of advanced data structures such as a Fibonacci Heap.
+4)Computer Networking:Circular linked list is also used in computer networking for token scheduling.
+5)Implementation of Data Structure: Data structures such as stacks and queues are implemented with the help of the circular linked lists.
+6)Audio/Video Streaming: Circular linked list is also used in audio and video streaming,for ex. when one complete audio list finishes playing in music player then it again starts playing from the first song.
+*/
